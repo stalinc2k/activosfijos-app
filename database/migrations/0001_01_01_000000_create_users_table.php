@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('type',['user','admin'])->default('user');
             $table->string('password');
             $table->enum('status',['enabled','disabled'])->default('enabled');
-
+            $table->softDeletes();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

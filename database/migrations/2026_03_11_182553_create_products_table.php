@@ -20,8 +20,7 @@ return new class extends Migration
             $table->text('serial_number')->nullable();
             $table->float('cost')->nullable();
             $table->enum('status',['enabled','disabled','low'])->default('enabled');
-           
-
+            $table->softDeletes();
             $table->timestamps();
         });
     }
