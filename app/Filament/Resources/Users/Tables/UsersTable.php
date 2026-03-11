@@ -16,18 +16,14 @@ class UsersTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Apellidos/Nombres')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
-                    ->label('Email address')
+                    ->label('Correo')
                     ->searchable()
                     ->sortable(),
-                 TextColumn::make('age')
-                    ->searchable()
-                    ->sortable(),
-                 TextColumn::make('address')
-                    ->searchable()
-                    ->sortable(),
+                 
                 TextColumn::make('email_verified_at')
                     ->dateTime()
                     ->sortable()

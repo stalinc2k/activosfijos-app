@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('department_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('department_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->timestamps();
+
+            $table->foreignId('created_by')->nullable()->constrained('users');
+            $table->foreignId('updated_by')->nullable()->constrained('users');
+            $table->foreignId('deleted_by')->nullable()->constrained('users');
         });
     }
 
