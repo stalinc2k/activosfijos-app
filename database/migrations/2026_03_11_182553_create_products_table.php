@@ -20,13 +20,7 @@ return new class extends Migration
             $table->text('serial_number')->nullable();
             $table->float('cost')->nullable();
             $table->enum('status',['enabled','disabled','low'])->default('enabled');
-            $table->foreignId('trademark_id')->nullable()->constrained()->cascadeOnUpdate();
-            $table->foreignId('type_id')->nullable()->constrained()->cascadeOnUpdate();
-            $table->foreignId('category_id')->nullable()->constrained()->cascadeOnUpdate();
-            
-            $table->foreignId('created_by')->nullable()->constrained('users');
-            $table->foreignId('updated_by')->nullable()->constrained('users');
-            $table->foreignId('deleted_by')->nullable()->constrained('users');
+           
 
             $table->timestamps();
         });

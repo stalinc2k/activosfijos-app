@@ -17,14 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->enum('type',['user','admin'])->default('user');
             $table->string('password');
-            $table->foreignId('department_id')->nullable()->constrained()->cascadeOnUpdate();
-            $table->foreignId('appointment_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->enum('status',['enabled','disabled'])->default('enabled');
 
-            $table->foreignId('created_by')->nullable()->constrained('users');
-            $table->foreignId('updated_by')->nullable()->constrained('users');
-            $table->foreignId('deleted_by')->nullable()->constrained('users');
-            
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
