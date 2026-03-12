@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -32,15 +33,15 @@ class User extends Authenticatable
     protected static function booted()
     {
         static::creating(function ($model) {
-            $model->created_by = auth()->id;
+            $model->created_by = Auth::id();
         });
 
         static::updating((function ($model) {
-            $model->updated_by = auth()->id;
+            $model->updated_by = Auth::id();
         }));
 
         static::deleting(function ($model) {
-            $model->deleted_by = auth()->id;
+            $model->deleted_by = Auth::id();
         });
     }
 

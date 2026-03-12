@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Type extends Model
 {
@@ -18,15 +19,15 @@ class Type extends Model
     protected static function booted()
     {
         static::creating(function ($model) {
-            $model->created_by = auth()->id;
+            $model->created_by = Auth::id();
         });
 
         static::updating((function ($model) {
-            $model->updated_by = auth()->id;
+            $model->updated_by = Auth::id();
         }));
 
         static::deleting(function ($model) {
-            $model->deleted_by = auth()->id;
+            $model->deleted_by = Auth::id();
         });
     }
 
