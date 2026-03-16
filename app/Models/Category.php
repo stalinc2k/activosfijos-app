@@ -41,6 +41,11 @@ class Category extends Model
         return $this->belongsTo(Trademark::class);
     }
 
+    public function types ()
+    {
+        return $this->hasMany(Type::class);
+    }
+
      public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

@@ -12,7 +12,8 @@ class Type extends Model
     Use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
+        'category_id'
     ];
     
 
@@ -34,6 +35,11 @@ class Type extends Model
     public function products ()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 
     public function creator()
