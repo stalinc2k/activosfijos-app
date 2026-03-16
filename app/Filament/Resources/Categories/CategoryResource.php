@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Categories;
 
+use App\Enums\NavigationGroupEnum;
 use App\Filament\Resources\Categories\Pages\ManageCategories;
 use App\Models\Category;
 use BackedEnum;
@@ -24,11 +25,16 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class CategoryResource extends Resource
 {
     protected static ?string $model = Category::class;
-    protected static ?string $navigationLabel = 'Categorias';
+
+    //ASIGNAMOS AL GRUPO DE GESTION
+    protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Inventario->value;
+    protected static ?int $navigationSort = 5;
+    protected static ?string $navigationLabel = 'Categorias Productos';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

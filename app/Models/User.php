@@ -68,13 +68,7 @@ class User extends Authenticatable
         ];
     }
 
-    public function department(){
-        return $this->belongsTo(Department::class);
-    }
-
-    public function appointment() {
-        return $this->belongsTo(Appointment::class);
-    }
+    
 
     public function creator()
     {

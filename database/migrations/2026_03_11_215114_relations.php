@@ -36,7 +36,7 @@ return new class extends Migration
             $table->foreignId('department_id')->nullable()->constrained()->cascadeOnUpdate();
         });
 
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('employees', function (Blueprint $table) {
             $table->foreignId('created_by')
                 ->nullable()
                 ->constrained('users');

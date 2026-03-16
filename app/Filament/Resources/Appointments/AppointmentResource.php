@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Appointments;
 
+use App\Enums\NavigationGroupEnum;
 use App\Filament\Resources\Appointments\Pages\ManageAppointments;
 use App\Models\Appointment;
 use App\Models\Department;
@@ -26,13 +27,17 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\Select;
+use UnitEnum;
 
 class AppointmentResource extends Resource
 {
     protected static ?string $model = Appointment::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    //ASIGNAMOS AL GRUPO DE GESTION
+    protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Areas->value;
+    protected static ?int $navigationSort = 3;
     protected static ?string $navigationLabel = 'Cargos';
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
     protected static ?string $recordTitleAttribute = 'Cargos';
 
     public static function form(Schema $schema): Schema
@@ -46,9 +51,8 @@ class AppointmentResource extends Resource
                 Select::make('department_id')
                     ->label('Departamento')
                     ->required()
-                    ->placeholder('Seleccione Departamento')
                     ->searchable()
-                    ->options(Department::query()->pluck('name','id')),
+                    ->options(Department::query()->pluck('name', 'id')),
             ]);
     }
 

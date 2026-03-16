@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Departments;
 
+use App\Enums\NavigationGroupEnum;
 use App\Filament\Resources\Departments\Pages\ManageDepartments;
 use App\Models\Department;
 use BackedEnum;
@@ -24,13 +25,17 @@ use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use UnitEnum;
 
 class DepartmentResource extends Resource
 {
     protected static ?string $model = Department::class;
+
+    //ASIGNAMOS AL GRUPO DE GESTION
+    protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Areas->value;
+    protected static ?int $navigationSort = 2;
     protected static ?string $navigationLabel = 'Departamentos';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
-
     protected static ?string $recordTitleAttribute = 'Department';
 
     public static function form(Schema $schema): Schema
