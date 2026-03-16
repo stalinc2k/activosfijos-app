@@ -123,7 +123,8 @@ class AppointmentResource extends Resource
                     ->sortable(),
             ])
             ->filters([
-                TrashedFilter::make(),
+                TrashedFilter::make()
+                    ->label('Registros Eliminados'),
             ])
             ->recordActions([
                 ViewAction::make()
@@ -138,11 +139,15 @@ class AppointmentResource extends Resource
                 ->label('Restaurar'),
             ])
             ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                    ForceDeleteBulkAction::make(),
-                    RestoreBulkAction::make(),
-                ]),
+                 BulkActionGroup::make([
+                    DeleteBulkAction::make()
+                    ->label('Eliminar Todo'),
+                    ForceDeleteBulkAction::make()
+                    ->label('Eliminar de BD'),
+                    RestoreBulkAction::make()
+                    ->label('Restaurar Todo'),
+                ])
+                ->label('Acciones'),
             ]);
     }
 

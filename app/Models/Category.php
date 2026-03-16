@@ -11,7 +11,8 @@ class Category extends Model
     Use SoftDeletes;
 
     protected $fillable = [
-        'name'
+        'name',
+        'trademark_id'
     ];
 
 
@@ -33,6 +34,11 @@ class Category extends Model
     public function products ()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function trademark ()
+    {
+        return $this->belongsTo(Trademark::class);
     }
 
      public function creator()

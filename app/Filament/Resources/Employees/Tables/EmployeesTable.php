@@ -5,8 +5,11 @@ namespace App\Filament\Resources\Employees\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ForceDeleteBulkAction;
+use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
 class EmployeesTable
@@ -22,13 +25,15 @@ class EmployeesTable
                 TextColumn::make('mail')
                     ->label('Correo')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('appointment.name')
                     ->label('Cargo')
                     ->sortable(),
                 TextColumn::make('department.name')
                     ->label('Departamento')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Creado el')
                     ->dateTime()
@@ -51,16 +56,23 @@ class EmployeesTable
                 
             ])
             ->filters([
-                //
+                TrashedFilter::make()
+                    ->label('Registros Eliminados'),
             ])
             ->recordActions([
                 ViewAction::make()->label('Ver'),
                 EditAction::make()->label('Editar'),
             ])
             ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
+                 BulkActionGroup::make([
+                    DeleteBulkAction::make()
+                    ->label('Eliminar Todo'),
+                    ForceDeleteBulkAction::make()
+                    ->label('Eliminar de BD'),
+                    RestoreBulkAction::make()
+                    ->label('Restaurar Todo'),
+                ])
+                ->label('Acciones'),
             ]);
     }
 }

@@ -34,6 +34,11 @@ class Trademark extends Model
         return $this->hasMany(Product::class);
     }
 
+    public function category ()
+    {
+        return $this->hasMany(Category::class);
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

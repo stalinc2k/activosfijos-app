@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Filament\Resources\Categories;
+namespace App\Filament\Resources\Trademarks;
 
 use App\Enums\NavigationGroupEnum;
-use App\Filament\Resources\Categories\Pages\ManageCategories;
-use App\Models\Category;
+use App\Filament\Resources\Trademarks\Pages\ManageTrademarks;
 use App\Models\Trademark;
 use BackedEnum;
 use Filament\Actions\BulkActionGroup;
@@ -16,7 +15,6 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Resources\Resource;
@@ -29,44 +27,28 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use UnitEnum;
 
-class CategoryResource extends Resource
+class TrademarkResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Trademark::class;
 
-    //ASIGNAMOS AL GRUPO DE GESTION
+     //ASIGNAMOS AL GRUPO DE GESTION
     protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Productos->value;
-    protected static ?int $navigationSort = 7;
-    protected static ?string $navigationLabel = 'Categorias';
+    protected static ?int $navigationSort = 5;
+    protected static ?string $navigationLabel = 'Marcas';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'Category';
+    protected static ?string $recordTitleAttribute = 'Trademark';
 
     public static function form(Schema $schema): Schema
     {
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->label('Nombre Categoría')
-                    ->live()
+                    ->label('Nombre:')
                     ->dehydrateStateUsing(fn ($state) => strtoupper($state))
                     ->required(),
-
-                /*  Select::make('trademark_id')
-                    ->label('Marca')
-                    ->options(Trademark::query()->pluck('name', 'id'))
-                    ->searchable()
-                    ->live(), */
-                
-                TextInput::make('created_by')
-                    ->numeric()
-                    ->hidden(),
-                TextInput::make('updated_by')
-                    ->numeric()
-                    ->hidden(),
-                TextInput::make('deleted_by')
-                    ->numeric()
-                    ->hidden(),
+              
             ]);
     }
 
@@ -75,26 +57,30 @@ class CategoryResource extends Resource
         return $schema
             ->components([
                 TextEntry::make('name')
-                    ->label('Nombre Categoría:'),
-                /* TextEntry::make('trademark.name')
-                    ->label('Nombre Marca:'), */
+                    ->label('Nombre:'),
+                
                 TextEntry::make('created_at')
-                    ->Label('Creado el:')
-                    ->dateTime(),
-                TextEntry::make('creator.name')
-                    ->Label('Creado por:')
-                    ->placeholder('-'),
-                TextEntry::make('updated_at')
-                    ->Label('Actualizado el:')
-                    ->dateTime(),
-                TextEntry::make('updater.name')
-                    ->Label('Actualizado por:')
-                    ->placeholder('-'),
-                TextEntry::make('deleted_at')
+                    ->label('Creado el:')
                     ->dateTime()
-                    ->visible(fn (Category $record): bool => $record->trashed()),
+                    ->placeholder('-'),
+                TextEntry::make('creator.name')
+                    ->label('Creado por:')
+                    ->placeholder('-'),
+                
+                TextEntry::make('updated_at')
+                    ->label('Actualizado el:')
+                    ->dateTime()
+                    ->placeholder('-'),
+                TextEntry::make('updater.name')
+                    ->label('Actualizado por:')
+                    ->placeholder('-'),
+
+                TextEntry::make('deleted_at')
+                    ->label('Eliminado el:')
+                    ->dateTime()
+                    ->visible(fn(Trademark $record): bool => $record->trashed()),
                 TextEntry::make('deleter.name')
-                    ->Label('Eliminado por:')
+                    ->label('Eliminado por:')
                     ->placeholder('-'),
             ]);
     }
@@ -102,25 +88,21 @@ class CategoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('Category')
+            ->recordTitleAttribute('Trademark')
             ->columns([
                 TextColumn::make('name')
-                    ->Label('Nombre Categoría')
-                    ->searchable()
-                    ->sortable(),
-                /*  TextColumn::make('trademark.name')
-                    ->Label('Marca')
-                    ->searchable()
-                    ->sortable(), */
+                    ->label('Nombre Marca')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('creator.name')
                     ->Label('Creado por')
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->Label('Creado el')
+                    ->Label('Fecha Creación')
                     ->dateTime()
                     ->sortable(),
                 TextColumn::make('updated_at')
-                    ->Label('Actualizado el')
+                    ->Label('Fecha Actualización')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -129,7 +111,7 @@ class CategoryResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
                 TextColumn::make('deleted_at')
-                    ->Label('Eliminado el')
+                    ->Label('Fecha Eliminación')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -137,6 +119,7 @@ class CategoryResource extends Resource
                     ->Label('Eliminado por')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
+                
             ])
             ->filters([
                 TrashedFilter::make()->label('Registros Eliminados'),
@@ -169,7 +152,7 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => ManageCategories::route('/'),
+            'index' => ManageTrademarks::route('/'),
         ];
     }
 
