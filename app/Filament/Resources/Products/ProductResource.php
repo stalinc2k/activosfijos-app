@@ -26,7 +26,7 @@ class ProductResource extends Resource
 
     //ASIGNAMOS AL GRUPO DE GESTION
     protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Productos->value;
-    protected static ?int $navigationSort = 9;
+    protected static ?int $navigationSort = 10;
     protected static ?string $navigationLabel = 'Productos';
 
 
