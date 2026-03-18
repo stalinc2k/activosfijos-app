@@ -54,12 +54,14 @@ class ProductsTable
                 TextColumn::make('creator.name')
                     ->label('Creado por')
                     ->searchable()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Creado el')
                     ->dateTime()
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
                     ->label('Actualizado el')
                     ->dateTime()

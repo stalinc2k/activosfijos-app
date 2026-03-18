@@ -19,7 +19,7 @@ class ProductForm
                 TextInput::make('code')
                     ->label('Código')
                     ->minLength(5)
-                    ->maxLength(10)
+                    ->maxLength(20)
                     ->dehydrateStateUsing(fn ($state) => strtoupper($state))
                     ->required(),
                 TextInput::make('name')
@@ -46,7 +46,7 @@ class ProductForm
                     ->prefix('$'),
                 Select::make('status')
                     ->label('Estado')
-                    ->options(['enabled' => 'Enabled', 'disabled' => 'Disabled', 'low' => 'Low'])
+                    ->options(['enabled' => 'Activo', 'disabled' => 'Inactivo', 'low' => 'Baja'])
                     ->default('enabled')
                     ->required(),
                /*  TextInput::make('created_by')

@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Employees\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
@@ -62,6 +63,7 @@ class EmployeesTable
             ->recordActions([
                 ViewAction::make()->label('Ver'),
                 EditAction::make()->label('Editar'),
+                DeleteAction::make()->label('Eliminar')
             ])
             ->toolbarActions([
                  BulkActionGroup::make([

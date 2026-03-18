@@ -25,14 +25,12 @@ class User extends Authenticatable
         'email',
         'password',
         'type',
-        'department_id',
-        'appointment_id',
         'status'
     ];
 
     protected static function booted()
     {
-        static::creating(function ($model) {
+        /* static::creating(function ($model) {
             $model->created_by = Auth::id();
         });
 
@@ -42,7 +40,7 @@ class User extends Authenticatable
 
         static::deleting(function ($model) {
             $model->deleted_by = Auth::id();
-        });
+        }); */
     }
 
     /**
@@ -70,7 +68,7 @@ class User extends Authenticatable
 
     
 
-    public function creator()
+   /*  public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
@@ -83,5 +81,5 @@ class User extends Authenticatable
     public function deleter()
     {
         return $this->belongsTo(User::class, 'deleted_by');
-    }
+    } */
 }
