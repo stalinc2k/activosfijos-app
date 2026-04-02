@@ -15,12 +15,11 @@ class Product extends Model
         'name',
         'description',
         'model',
-        'serial_number',
-        'cost',
         'status',
         'trademark_id',
         'type_id',
-        'category_id'
+        'category_id',
+        'provider_id'
     ];
 
     protected static function booted()
@@ -69,5 +68,10 @@ class Product extends Model
     public function deleter()
     {
         return $this->belongsTo(User::class, 'deleted_by');
+    }
+
+     public function provider()
+    {
+        return $this->belongsTo(Provider::class);
     }
 }

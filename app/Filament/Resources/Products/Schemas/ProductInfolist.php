@@ -20,7 +20,7 @@ class ProductInfolist
                     ->label('Descripción')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                TextEntry::make('model')
+               /* TextEntry::make('model')
                     ->label('Modelo')
                     ->placeholder('-')
                     ->columnSpanFull(),
@@ -31,10 +31,11 @@ class ProductInfolist
                 TextEntry::make('cost')
                     ->label('Precio')
                     ->money()
+                    ->placeholder('-'), */
+                TextEntry::make('provider.name')
+                    ->label('Proveedor')
                     ->placeholder('-'),
-                TextEntry::make('status')
-                    ->label('Estado')
-                    ->badge(),
+                
                 TextEntry::make('trademark.name')
                     ->label('Marca')
                     ->placeholder('-'),
@@ -44,6 +45,11 @@ class ProductInfolist
                 TextEntry::make('type.name')
                     ->label('Tipo')
                     ->placeholder('-'),
+            TextEntry::make('is_active')
+                ->label('Estado')
+                ->badge()
+                ->color(fn($state) => $state ? 'success' : 'danger')
+                ->formatStateUsing(fn($state) => $state ? 'Habilitado' : 'Inhabilitado'),
                 TextEntry::make('created_at')
                     ->label('Creado el')
                     ->dateTime()

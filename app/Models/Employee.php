@@ -53,4 +53,12 @@ class Employee extends Model
     {
         return $this->belongsTo(User::class, 'deleted_by');
     }
+
+    public function documents_deliverd(){
+        return $this->hasMany(Document::class, 'deliverd_to');
+    }
+    
+    public function documents_returned(){
+        return $this->hasMany(Document::class, 'returned_by');
+    }
 }

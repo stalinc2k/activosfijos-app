@@ -2,23 +2,24 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 
-class Provider extends Model
+class Document extends Model
 {
-    Use SoftDeletes;
+    use SoftDeletes;
 
     protected $fillable = [
-        'ruc',
-        'name',
-        'address',
-        'phone',
-
+        'date',
+        'delivered_to',
+        'returned_by',
+        'type',
+        'Observation'
     ];
 
-    protected static function booted()
+     protected static function booted()
     {
         static::creating(function ($model) {
             $model->created_by = Auth::id();
@@ -48,8 +49,15 @@ class Provider extends Model
         return $this->belongsTo(User::class, 'deleted_by');
     }
 
-     public function products()
+
+    public function delyvered()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsTo(Employee::class, 'delivered_to');
     }
+
+    public function returned()
+    {
+        return $this->belongsTo(Employee::class, 'returned_by');
+    }
+
 }

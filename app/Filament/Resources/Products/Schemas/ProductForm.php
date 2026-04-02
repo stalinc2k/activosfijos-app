@@ -3,12 +3,16 @@
 namespace App\Filament\Resources\Products\Schemas;
 
 use App\Models\Category;
+use App\Models\Provider;
 use App\Models\Trademark;
 use App\Models\Type;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+
 
 class ProductForm
 {
@@ -20,8 +24,7 @@ class ProductForm
                     ->label('Código')
                     ->minLength(5)
                     ->maxLength(20)
-                    ->dehydrateStateUsing(fn ($state) => strtoupper($state))
-                    ->required(),
+                    ->dehydrateStateUsing(fn ($state) => strtoupper($state)),
                 TextInput::make('name')
                     ->label('Nombre corto')
                     ->minLength(10)
@@ -32,7 +35,7 @@ class ProductForm
                     ->label('Descripción')
                     ->dehydrateStateUsing(fn ($state) => strtoupper($state))
                     ->columnSpanFull(),
-                Textarea::make('model')
+                /* Textarea::make('model')
                     ->label('Modelo')
                     ->dehydrateStateUsing(fn ($state) => strtoupper($state))
                     ->columnSpanFull(),
@@ -44,12 +47,7 @@ class ProductForm
                     ->label('Precio')
                     ->numeric()
                     ->prefix('$'),
-                Select::make('status')
-                    ->label('Estado')
-                    ->options(['enabled' => 'Activo', 'disabled' => 'Inactivo', 'low' => 'Baja'])
-                    ->default('enabled')
-                    ->required(),
-               /*  TextInput::make('created_by')
+               TextInput::make('created_by')
                     ->numeric(),
                 TextInput::make('updated_by')
                     ->numeric(),
@@ -61,19 +59,40 @@ class ProductForm
                     ->searchable()
                     ->live()
                     ->required(),
-                Select::make('category_id')
-                    ->label('Categoría')
-                    ->options(Category::query()->pluck('name', 'id'))
-                    ->searchable()
+               Select::make('category_id')
+                ->label('Categoría')
+                ->options(Category::query()->pluck('name', 'id'))
+                ->searchable()
+                ->live()
+                ->required()
+                ->afterStateUpdated(fn(Set $set) => $set('type_id', null)),
+
+            Select::make('type_id')
+                ->label('Tipo')
+                ->options(function (Get $get) {
+                    $categoryId = $get('category_id');
+
+                    if (!$categoryId) {
+                        return [];
+                    }
+
+                    return Type::query()
+                        ->where('category_id', $categoryId)
+                        ->pluck('name', 'id');
+                })
+                ->searchable()
+                ->required(),
+
+                 Select::make('provider_id')
+                    ->label('Proveedor')
+                    ->options(Provider::query()->pluck('name','id'))
                     ->live()
                     ->required(),
-                Select::make('type_id')
-                    ->label('Tipo')
-                    ->options(Type::query()->pluck('name', 'id'))
-                    ->searchable()
-                    ->live()
+                 Select::make('is_active')
+                    ->label('Estado')
+                    ->options([true => 'Habilitado', false => 'Deshabilitado'])
+                    ->default(true)
                     ->required(),
-               
-            ]);
+            ])->columns(4);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Products\Tables;
+namespace App\Filament\Resources\Documents\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -15,79 +15,57 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class ProductsTable
+class DocumentsTable
 {
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
-                TextColumn::make('code')
-                    ->label('Código')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('name')
-                    ->label('Nombre Corto')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('trademark.name')
-                    ->label('Marca')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('category.name')
-                    ->label('Categoría')
-                    ->sortable()
-                    ->searchable(),
-                
-                TextColumn::make('type.name')
-                    ->label('Tipo')
-                    ->searchable()
+                TextColumn::make('date')
+                    ->label('Fecha')
+                    ->date()
                     ->sortable(),
-                TextColumn::make('provider.name')
-                    ->label('Proveedor')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('is_active')
-                    ->label('Estado')
-                    ->searchable()
-                    ->badge()
-                    ->color(fn($state) => $state ? 'success' : 'danger')
-                    ->formatStateUsing(fn($state) => $state ? 'Habilitado' : 'Inhabilitado'),
-                TextColumn::make('creator.name')
-                    ->label('Creado por')
-                    ->searchable()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('created_at')
                     ->label('Creado el')
                     ->dateTime()
+                    ->sortable(),
+                TextColumn::make('creater.name')
+                    ->label('Creador por')
+                    ->sortable(),
+                TextColumn::make('delivered.name')
+                    ->label('Entregado a')
+                    ->sortable(),
+                TextColumn::make('returned.name')
+                    ->label('Devuelto por')
+                    ->sortable(),
+                TextColumn::make('type')
+                    ->label('Tipo Documento')
                     ->sortable()
-                    ->searchable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->badge(),
                 TextColumn::make('updated_at')
                     ->label('Actualizado el')
                     ->dateTime()
                     ->sortable()
-                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updater.name')
                     ->label('Actualizado por')
                     ->sortable()
-                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                 TextColumn::make('deleted_at')
+                TextColumn::make('deleted_at')
                     ->label('Eliminado el')
                     ->dateTime()
                     ->sortable()
-                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
                  TextColumn::make('deleter.name')
                     ->label('Eliminado por')
                     ->sortable()
-                    ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                
+                
             ])
-            ->filters([
-                TrashedFilter::make()->label('Registros Eliminados'),
+           ->filters([
+                TrashedFilter::make()
+                    ->label('Registros Eliminados'),
             ])
             ->recordActions([
                 ViewAction::make()
@@ -102,7 +80,7 @@ class ProductsTable
                 ->label('Restaurar'),
             ])
             ->toolbarActions([
-              BulkActionGroup::make([
+                 BulkActionGroup::make([
                     DeleteBulkAction::make()
                     ->label('Eliminar Todo'),
                     ForceDeleteBulkAction::make()

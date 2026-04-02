@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_inventories', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+          Schema::table('products', function (Blueprint $table) {
+            $table->foreignId('provider_id')
+                ->nullable()
+                ->constrained('providers');
         });
     }
 
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_inventories');
+        //
     }
 };
