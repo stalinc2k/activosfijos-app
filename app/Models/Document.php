@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-
+use Dom\Document as DomDocument;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -49,15 +49,14 @@ class Document extends Model
         return $this->belongsTo(User::class, 'deleted_by');
     }
 
-
-    public function delyvered()
-    {
-        return $this->belongsTo(Employee::class, 'delivered_to');
-    }
-
     public function returned()
     {
         return $this->belongsTo(Employee::class, 'returned_by');
+    }
+
+    public function items()
+    {
+        return $this->hasMany(DocumentItem::class);
     }
 
 }

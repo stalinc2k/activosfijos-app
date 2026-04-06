@@ -22,7 +22,7 @@ class DocumentInfolist
                     ->label('Creado el')     
                     ->dateTime()
                     ->placeholder('-'),
-                TextEntry::make('creater.name')
+                TextEntry::make('creator.name')
                     ->label('Creado por')
                     ->placeholder('-'),
                 TextEntry::make('delivered.name')

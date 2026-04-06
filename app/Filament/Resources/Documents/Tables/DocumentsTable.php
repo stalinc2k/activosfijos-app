@@ -29,7 +29,7 @@ class DocumentsTable
                     ->label('Creado el')
                     ->dateTime()
                     ->sortable(),
-                TextColumn::make('creater.name')
+                TextColumn::make('creator.name')
                     ->label('Creador por')
                     ->sortable(),
                 TextColumn::make('delivered.name')

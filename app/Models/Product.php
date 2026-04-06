@@ -74,4 +74,9 @@ class Product extends Model
     {
         return $this->belongsTo(Provider::class);
     }
+
+    public function documentItems()
+    {
+        return $this->hasMany(DocumentItem::class);
+    }
 }
