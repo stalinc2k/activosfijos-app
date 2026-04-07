@@ -28,15 +28,10 @@ return new class extends Migration
                 ->nullable()
                 ->constrained()
                 ->restrictOnDelete();
-            //Relacion con Proveedor
-            $table->foreignId('provider_id')
-                ->nullable()
-                ->constrained()
-                ->nullOnDelete();
             //Serie
             $table->string('serie_number')->nullable();
             // Cantidad del movimiento
-            $table->integer('quantity');
+            $table->integer('quantity')->default(1);
 
             // Opcionales pero MUY útiles
             $table->decimal('unit_cost', 10, 2)->nullable();

@@ -15,7 +15,6 @@ class DocumentItem extends Model
         'quantity',
         'unit_cost',
         'trademark_id',
-        'provider_id',
         'serie_number'
     ];
 
@@ -39,16 +38,22 @@ class DocumentItem extends Model
     }
 
     //Funcion para evitar duplicados
-    public static function isSerieInStock($productId, $serieNumber): bool
+    public static function isSerieInStock($productId, $serieNumber, $ignoreId = null): bool
     {
         $items = self::where('product_id', $productId)
             ->where('serie_number', $serieNumber)
-            ->with('document')
+            ->with(['document' => fn($q) => $q->withTrashed()])
             ->get();
 
         $stock = 0;
 
         foreach ($items as $item) {
+
+            // 🔥 ignorar el actual
+            if ($ignoreId && $item->id == $ignoreId) {
+                continue;
+            }
+
             switch ($item->document->type) {
                 case 'Entrada':
                 case 'Devolucion':
@@ -64,6 +69,4 @@ class DocumentItem extends Model
 
         return $stock > 0;
     }
-
-
 }

@@ -22,15 +22,24 @@ use UnitEnum;
 
 class DocumentResource extends Resource
 {
+
+     //MUESTRA SOLO Entradas
+    public static function getEloquentQuery(): Builder
+        {
+            return parent::getEloquentQuery()
+                ->where('type', 'Entrada');
+        }
     protected static ?string $model = Document::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
 
     //ASIGNAMOS AL GRUPO DE GESTION
+     protected static ?string $modelLabel = 'Entradas';
+    protected static ?string $pluralModelLabel = 'Entradas';
     protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Inventario->value;
     protected static ?int $navigationSort = 10;
-    protected static ?string $navigationLabel = 'Ingresos';
+    protected static ?string $navigationLabel = 'Ingresos Activos';
 
 
     protected static ?string $recordTitleAttribute = 'Document';

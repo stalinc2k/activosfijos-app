@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\Documents\Tables;
+namespace App\Filament\Resources\OutputDocuments\Tables;
 
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -15,11 +15,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class DocumentsTable
+class OutputDocumentsTable
 {
     public static function configure(Table $table): Table
     {
-        return $table
+         return $table
             ->columns([
                 TextColumn::make('date')
                     ->label('Fecha')
@@ -41,7 +41,7 @@ class DocumentsTable
                 TextColumn::make('type')
                     ->label('Tipo Documento')
                     ->sortable()
-                    ->badge()->color('success'),
+                    ->badge()->color('info'),
                 TextColumn::make('updated_at')
                     ->label('Actualizado el')
                     ->dateTime()

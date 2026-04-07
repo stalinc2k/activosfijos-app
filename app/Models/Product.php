@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Product extends Model
 {
-    Use SoftDeletes;
+    use SoftDeletes;
     
     protected $fillable = [
         'code',
@@ -28,12 +28,13 @@ class Product extends Model
             $model->created_by = Auth::id();
         });
 
-        static::updating((function ($model) {
+        static::updating(function ($model) {
             $model->updated_by = Auth::id();
-        }));
+        });
 
         static::deleting(function ($model) {
             $model->deleted_by = Auth::id();
+            $model->save();
         });
     }
 

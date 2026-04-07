@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Dom\Document as DomDocument;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +15,9 @@ class Document extends Model
         'delivered_to',
         'returned_by',
         'type',
-        'Observation'
+        'Observation',
+        'provider_id',
+        'num_doc',
     ];
 
      protected static function booted()
@@ -25,12 +26,13 @@ class Document extends Model
             $model->created_by = Auth::id();
         });
 
-        static::updating((function ($model) {
+        static::updating(function ($model) {
             $model->updated_by = Auth::id();
-        }));
+        });
 
         static::deleting(function ($model) {
             $model->deleted_by = Auth::id();
+            $model->save();
         });
     }
 
@@ -54,9 +56,17 @@ class Document extends Model
         return $this->belongsTo(Employee::class, 'returned_by');
     }
 
+    public function delivered()
+    {
+        return $this->belongsTo(Employee::class, 'delivered_to');
+    }
+
     public function items()
     {
         return $this->hasMany(DocumentItem::class);
     }
-
+    public function provider()
+    {
+        return $this->belongsTo(Provider::class);
+    }
 }
