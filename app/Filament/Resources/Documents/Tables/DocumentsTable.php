@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Documents\Tables;
 
+use App\Models\Document;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -11,6 +12,7 @@ use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Enums\TextSize;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
@@ -21,6 +23,13 @@ class DocumentsTable
     {
         return $table
             ->columns([
+                 TextColumn::make('type')
+                    ->label('Tipo')
+                    ->sortable()
+                    ->badge()->color('success'),
+                TextColumn::make('id')
+                    ->label('Doc')
+                    ->sortable(),
                 TextColumn::make('date')
                     ->label('Fecha')
                     ->date()
@@ -28,20 +37,23 @@ class DocumentsTable
                 TextColumn::make('created_at')
                     ->label('Creado el')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('creator.name')
                     ->label('Creador por')
                     ->sortable(),
                 TextColumn::make('delivered.name')
                     ->label('Entregado a')
+                    ->description(fn (Document $record): string => $record->Observation)
+                    ->limit(50, end: ' (more)')
+                    ->size('sm')
+                    ->wrap()
                     ->sortable(),
-                TextColumn::make('returned.name')
-                    ->label('Devuelto por')
-                    ->sortable(),
-                TextColumn::make('type')
-                    ->label('Tipo Documento')
+                TextColumn::make('Observation')
+                    ->label('Observación')
                     ->sortable()
-                    ->badge()->color('success'),
+                    ->toggleable(isToggledHiddenByDefault: true),
+               
                 TextColumn::make('updated_at')
                     ->label('Actualizado el')
                     ->dateTime()

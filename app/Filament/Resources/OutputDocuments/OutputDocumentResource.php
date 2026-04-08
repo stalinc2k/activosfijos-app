@@ -34,9 +34,9 @@ class OutputDocumentResource extends Resource
      //ASIGNAMOS AL GRUPO DE GESTION
     protected static ?string $modelLabel = 'Asignaciones';
     protected static ?string $pluralModelLabel = 'Asignaciones';
-    protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Inventario->value;
+    protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Activos->value;
     protected static ?int $navigationSort = 11;
-    protected static ?string $navigationLabel = 'Asignación Activos';
+    protected static ?string $navigationLabel = 'Asignaciones';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

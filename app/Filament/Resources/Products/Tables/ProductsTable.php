@@ -21,16 +21,18 @@ class ProductsTable
     {
         return $table
             ->columns([
+                 TextColumn::make('trademark.name')
+                    ->label('Marca')
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('code')
                     ->label('Código')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('name')
                     ->label('Nombre Corto')
-                    ->sortable()
-                    ->searchable(),
-                TextColumn::make('trademark.name')
-                    ->label('Marca')
+                    ->wrap()
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('category.name')

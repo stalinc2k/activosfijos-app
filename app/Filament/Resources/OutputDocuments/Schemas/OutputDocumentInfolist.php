@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\OutputDocuments\Schemas;
 
 use App\Models\Document;
+use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
@@ -50,6 +51,26 @@ class OutputDocumentInfolist
                 TextEntry::make('updater.name')
                     ->label('Actualizado por')
                     ->placeholder('-'),
+                RepeatableEntry::make('items')
+                    ->label('Activos entregados')
+                    ->schema([
+
+                        TextEntry::make('product.name')
+                            ->label('Producto')
+                            ->weight('bold'),
+
+                        TextEntry::make('serie_number')
+                            ->label('Serie')
+                            ->badge()
+                            ->color('primary'),
+
+                        TextEntry::make('trademark.name')
+                            ->label('Marca')
+                            ->size('sm'),
+
+                    ])
+                    ->columns(3)
+                    ->columnSpanFull(),
             ]);
     }
 }

@@ -25,6 +25,8 @@ class ProductResource extends Resource
     protected static ?string $model = Product::class;
 
     //ASIGNAMOS AL GRUPO DE GESTION
+    protected static ?string $modelLabel = 'Productos';
+    protected static ?string $pluralModelLabel = 'Productos';
     protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Productos->value;
     protected static ?int $navigationSort = 10;
     protected static ?string $navigationLabel = 'Productos';

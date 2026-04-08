@@ -13,7 +13,7 @@ class ListDocuments extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            CreateAction::make()->label('Nuevo Ingreso'),
+            CreateAction::make()->label('Nueva Entrada'),
         ];
     }
 }

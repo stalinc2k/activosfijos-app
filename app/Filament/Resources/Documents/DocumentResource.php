@@ -37,9 +37,9 @@ class DocumentResource extends Resource
     //ASIGNAMOS AL GRUPO DE GESTION
      protected static ?string $modelLabel = 'Entradas';
     protected static ?string $pluralModelLabel = 'Entradas';
-    protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Inventario->value;
+    protected static string | UnitEnum | null $navigationGroup = NavigationGroupEnum::Activos->value;
     protected static ?int $navigationSort = 10;
-    protected static ?string $navigationLabel = 'Ingresos Activos';
+    protected static ?string $navigationLabel = 'Entradas';
 
 
     protected static ?string $recordTitleAttribute = 'Document';
