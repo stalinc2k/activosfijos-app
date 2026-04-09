@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Filament\Resources\OutputDocuments\Schemas;
+namespace App\Filament\Resources\ReturnDocuments\Schemas;
 
 use App\Models\Document;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
 
-class OutputDocumentInfolist
+class ReturnDocumentInfolist
 {
     public static function configure(Schema $schema): Schema
     {
@@ -66,7 +66,7 @@ class OutputDocumentInfolist
 
                         TextEntry::make('product.trademark.name')
                             ->label('Marca')
-                            ->placeholder('-'),
+                            ->size('sm'),
 
                     ])
                     ->columns(3)

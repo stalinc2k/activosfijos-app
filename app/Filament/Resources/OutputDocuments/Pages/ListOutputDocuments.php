@@ -9,7 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListOutputDocuments extends ListRecords
 {
     protected static string $resource = OutputDocumentResource::class;
-
+   
     protected function getHeaderActions(): array
     {
         return [

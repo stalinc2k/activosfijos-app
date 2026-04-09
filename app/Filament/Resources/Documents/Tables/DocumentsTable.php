@@ -25,22 +25,27 @@ class DocumentsTable
             ->columns([
                  TextColumn::make('type')
                     ->label('Tipo')
+                    ->searchable()
                     ->sortable()
                     ->badge()->color('success'),
                 TextColumn::make('id')
                     ->label('Doc')
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('date')
                     ->label('Fecha')
                     ->date()
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Creado el')
                     ->dateTime()
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('creator.name')
                     ->label('Creador por')
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('delivered.name')
                     ->label('Entregado a')
@@ -48,28 +53,34 @@ class DocumentsTable
                     ->limit(50, end: ' (more)')
                     ->size('sm')
                     ->wrap()
+                    ->searchable()
                     ->sortable(),
                 TextColumn::make('Observation')
                     ->label('Observación')
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                
                 TextColumn::make('updated_at')
                     ->label('Actualizado el')
                     ->dateTime()
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updater.name')
                     ->label('Actualizado por')
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deleted_at')
                     ->label('Eliminado el')
                     ->dateTime()
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                  TextColumn::make('deleter.name')
                     ->label('Eliminado por')
+                    ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 

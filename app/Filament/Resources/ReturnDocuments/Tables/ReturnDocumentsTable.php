@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Filament\Resources\OutputDocuments\Tables;
+namespace App\Filament\Resources\ReturnDocuments\Tables;
 
 use App\Models\Document;
 use Filament\Actions\BulkActionGroup;
@@ -16,17 +16,17 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 
-class OutputDocumentsTable
+class ReturnDocumentsTable
 {
     public static function configure(Table $table): Table
     {
-         return $table
+       return $table
             ->columns([
                  TextColumn::make('type')
                     ->label('Tipo')
                     ->searchable()
                     ->sortable()
-                    ->badge()->color('info'),
+                    ->badge()->color('warning'),
                 TextColumn::make('id')
                     ->label('Doc')
                     ->searchable()
@@ -46,12 +46,16 @@ class OutputDocumentsTable
                     ->label('Creador por')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('delivered.name')
-                    ->label('Entregado a')
+                TextColumn::make('returned.name')
+                    ->label('Devuelto por')
                     ->description(fn (Document $record): string => $record->Observation)
                     ->limit(50, end: ' (more)')
                     ->size('sm')
                     ->wrap()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('delivered.name')
+                    ->label('Entregado a')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('Observation')
