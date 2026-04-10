@@ -10,4 +10,5 @@ enum NavigationGroupEnum: string
     case Usuarios = 'Gestión Usuarios';
     case Transacciones = 'Transacciones';
     case Activos = 'Gestión Activos';
+    case ReportesAct = 'Reportes Activos';
 }
