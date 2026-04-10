@@ -6,9 +6,9 @@ use App\Enums\NavigationGroupEnum;
 use App\Models\StockDisponible;
 use BackedEnum;
 use Filament\Pages\Page;
-use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Support\Icons\Heroicon;
+use Filament\Tables\Columns\TextColumn;
 use UnitEnum;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -33,44 +33,41 @@ class StockReport extends Page implements HasTable
 
             ->columns([
 
-                Tables\Columns\TextColumn::make('id')
-                    ->label('Producto')
-                    ->searchable()
-                    ->sortable(),
-
-                Tables\Columns\TextColumn::make('Activo')
+                TextColumn::make('custodio')
+                    ->label('Custodio')
+                    ->default('Sistemas'),
+                TextColumn::make('Activo')
                     ->label('Descripción Activo')
                     ->searchable()
                     ->sortable(),
-                 Tables\Columns\TextColumn::make('Marca')
+                TextColumn::make('marca')
                     ->label('Marca')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('Serial_number')
+                TextColumn::make('Serial_number')
                     ->label('Serie')
                     ->searchable()
                     ->sortable(),
 
-                Tables\Columns\TextColumn::make('stock')
+                TextColumn::make('stock')
                     ->label('Stock')
                     ->badge()
                     ->color('success'),
-
             ])
 
-            ->filters([
+            /* ->filters([
 
                 Tables\Filters\SelectFilter::make('id')
                     ->label('Producto')
                     ->options(
                         fn() =>
                         StockDisponible::query()
-                            ->pluck('id', 'Activo')
+                            ->pluck('Activo', 'Activo')
                     ),
 
             ])
-
-            ->defaultSort('Activo');
+ */
+            ->defaultSort('id');
     }
 }
