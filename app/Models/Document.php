@@ -100,7 +100,7 @@ class Document extends Model
 
     public function items()
     {
-        return $this->hasMany(DocumentItem::class);
+         return $this->hasMany(DocumentItem::class)->select()->distinct();
     }
     public function provider()
     {

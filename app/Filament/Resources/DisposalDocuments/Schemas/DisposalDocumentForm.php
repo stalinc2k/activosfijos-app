@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\DisposalDocuments\Schemas;
 
 use App\Models\DocumentItem;
+use App\Models\Product;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Repeater;
@@ -17,105 +18,67 @@ class DisposalDocumentForm
     {
         return $schema->components([
 
-            // 📅 FECHA
             DatePicker::make('date')
                 ->label('Fecha')
                 ->default(now())
                 ->required(),
 
-            // 📝 OBSERVACIÓN
             Textarea::make('Observation')
                 ->label('Motivo de baja')
                 ->dehydrateStateUsing(fn($state) => strtoupper($state))
                 ->required()
                 ->columnSpanFull(),
 
-            // 🔥 ITEMS
             Repeater::make('items')
                 ->relationship()
                 ->label('Activos a dar de baja')
                 ->schema([
+                        Select::make('product_id')
+                            ->label('Producto')
+                            ->required()
+                            ->searchable()
+                            ->options(function () {
+                                return Product::whereHas('category', function ($q) {
+                                    $q->where('category_id', 1); // 👈 ajusta según tu BD
+                                })->pluck('name', 'id');
+                            })
+                            ->reactive()
+                            ->afterStateUpdated(fn($set) => $set('serie_number', null)),
 
-                    // 📦 PRODUCTO
-                    Select::make('product_id')
-                        ->label('Producto')
-                        ->required()
-                        ->reactive()
-                        ->options(function ($record) {
-
-                            $items = DocumentItem::with('product')->get();
-
-                            return $items
-                                ->filter(function ($item) use ($record) {
-
-                                    // ✅ permitir producto actual en edición
-                                    if ($record && $record->product_id === $item->product_id) {
-                                        return true;
-                                    }
-
-                                    // ✅ solo en stock
-                                    return DocumentItem::isSerieInStock(
-                                        $item->product_id,
-                                        $item->serie_number
-                                    );
-                                })
-                                ->mapWithKeys(function ($item) {
-                                    return [$item->product_id => $item->product->name];
-                                })
-                                ->unique();
-                        })
-                        ->afterStateUpdated(fn($set) => $set('serie_number', null)),
-
-                    // 🔢 SERIE (CON FIX PARA EDITAR)
-                    Select::make('serie_number')
-                        ->label('Serie')
-                        ->required()
-                        ->searchable()
-                        ->options(function (Get $get, $record) {
-
-                            $productId = $get('product_id');
-
-                            if (!$productId) return [];
-
-                            $items = DocumentItem::where('product_id', $productId)->get();
-
-                            return $items
-                                ->filter(function ($item) use ($record) {
-
-                                    // ✅ PERMITIR LA MISMA SERIE EN EDICIÓN
-                                    if ($record && $record->serie_number === $item->serie_number) {
-                                        return true;
-                                    }
-
-                                    // ✅ SOLO ACTIVOS EN STOCK
-                                    return DocumentItem::isSerieInStock(
-                                        $item->product_id,
-                                        $item->serie_number
-                                    );
-                                })
-                                ->pluck('serie_number', 'serie_number');
-                        })
-
-                        // 🔥 VALIDACIÓN PRO
-                        ->rule(function (Get $get, $record) {
-                            return function ($attribute, $value, $fail) use ($get, $record) {
+                        // 🔢 SERIE
+                        Select::make('serie_number')
+                            ->label('Serie')
+                            ->required()
+                            ->options(function (Get $get) {
 
                                 $productId = $get('product_id');
+                                $currentSerie = $get('serie_number'); // 👈 clave
 
-                                if (!$productId || !$value) return;
+                                if (!$productId) return [];
 
-                                // ✅ SI ES EDICIÓN Y MISMA SERIE → PERMITIR
-                                if ($record && $record->serie_number === $value) {
-                                    return;
-                                }
+                                return \App\Models\DocumentItem::query()
+                                    ->where('product_id', $productId)
+                                    ->whereNotNull('serie_number')
+                                    ->get()
+                                    ->filter(function ($item) use ($productId, $currentSerie) {
 
-                                $inStock = DocumentItem::isSerieInStock($productId, $value);
+                                        // 🔥 permitir la serie actual aunque no esté en stock
+                                        if ($item->serie_number === $currentSerie) {
+                                            return true;
+                                        }
 
-                                if (!$inStock) {
-                                    $fail("El activo no está disponible en inventario.");
-                                }
-                            };
-                        }),
+                                        return \App\Models\DocumentItem::isSerieInStock(
+                                            $productId,
+                                            $item->serie_number
+                                        );
+                                    })
+                                    ->pluck('serie_number', 'serie_number')
+                                    ->toArray();
+                            })
+                            ->searchable()
+                            ->reactive()
+                            ->dehydrateStateUsing(fn($state) => strtoupper($state)),
+
 
                     Hidden::make('quantity')->default(1),
 
@@ -126,7 +89,6 @@ class DisposalDocumentForm
                 ->reorderable(false)
                 ->collapsible()
                 ->columnSpanFull(),
-
         ]);
     }
 }

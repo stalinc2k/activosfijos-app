@@ -25,7 +25,8 @@ class DisposalDocumentResource extends Resource
     public static function getEloquentQuery(): Builder
         {
             return parent::getEloquentQuery()
-                ->where('type', 'Baja');
+                ->where('type', 'Baja')
+                ->with(['items.product']);
         }
     protected static ?string $model = Document::class;
    //ASIGNAMOS AL GRUPO DE GESTION

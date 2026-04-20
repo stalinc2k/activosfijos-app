@@ -50,8 +50,13 @@ class DisposalDocumentsTable
                     ->label('Activos')
                     ->formatStateUsing(function ($record) {
                         return $record->items
-                            ->map(fn($item) => $item->product->name . ' - ' . $item->serie_number)
-                            ->join(', ');
+                            ->unique('serie_number') // 🔥 evita duplicados reales
+                            ->groupBy(fn($item) => $item->product->name)
+                            ->map(function ($items, $productName) {
+                                $series = $items->pluck('serie_number')->join(', ');
+                                return "{$productName} - {$series}";
+                            })
+                            ->join(' | ');
                     })
                     ->wrap()
                     ->weight('bold')
